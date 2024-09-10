@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Test</title>
+    <link rel="stylesheet" href="./online-style.css">
+</head>
+<body>
+
+    <h1>线上测试</h1>
+    <p>请回答以下问题:</p>
+
+    <form id="quizForm">
+        <div class="question">
+            <label for="fans">1. 请问蔡徐坤的粉丝叫什么？（单选）</label><br>
+            <input type="radio" id="ikun" name="fans" value="IKUN" required>
+            <label for="ikun">IKUN</label><br>
+            <input type="radio" id="ekun" name="fans" value="EKUN">
+            <label for="ekun">EKUN</label><br>
+            <input type="radio" id="xkun" name="fans" value="XKUN">
+            <label for="xkun">XKUN</label>
+        </div>
+
+        <div class="question">
+            <label>2. 请问时代峰峻旗下的男团有哪些？(多选）</label>
+            <input type="checkbox" id="tfboys" name="boy_groups[]" value="TFBOYS">
+            <label for="tfboys">TFBOYS</label><br>
+            <input type="checkbox" id="tnt" name="boy_groups[]" value="TNT">
+            <label for="tnt">TNT</label><br>
+            <input type="checkbox" id="top" name="boy_groups[]" value="TOP">
+            <label for="top">TOP</label><br>
+            <input type="checkbox" id="bigbang" name="boy_groups[]" value="BIGBANG">
+            <label for="bigbang">BIGBANG</label>
+        </div>
+
+        <div class="question">
+            <label for="js_use">3. 请问彭于晏还是陈勇衔比较帅？（请选择比较帅的）</label><br>
+            <input type="text" id="js_use" name="js_use" placeholder="请输入你的答案" required>
+        </div>
+
+        <input type="submit" value="Submit Test">
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        if (!localStorage.getItem("startTime")) {
+            const startTime = new Date().getTime();
+            localStorage.setItem("startTime", startTime);
+        }
+
+        document.getElementById("quizForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let score = 0;
+            const selectedfans = document.querySelector('input[name="fans"]:checked').value;
+            const correctfansAnswer = "IKUN"; 
+
+            if (selectedfans === correctfansAnswer) {
+                score++;  
+            }
+
+            const selectedBoyGroups = Array.from(document.querySelectorAll('input[name="boy_groups[]"]:checked')).map(cb => cb.value);
+            const correctBoyGroups = ["TFBOYS", "TNT", "TOP"]; 
+
+            const isBoyGroupsCorrect = correctBoyGroups.every(group => selectedBoyGroups.includes(group)) && 
+                selectedBoyGroups.every(group => correctBoyGroups.includes(group));
+
+            if (isBoyGroupsCorrect) {
+                score++;  
+            }
+
+            const shortAnswer = document.querySelector('input[name="js_use"]').value;
+            const correctShortAnswer = "彭于晏"; 
+
+            if (shortAnswer.trim() === correctShortAnswer) {
+                score++;  
+            }
+
+            const endTime = new Date().getTime();  
+            const startTime = localStorage.getItem("startTime");
+            const timeSpent = Math.floor((endTime - startTime) / 1000);  
+
+            localStorage.setItem("testScore", score);
+            localStorage.setItem("timeSpent", timeSpent);  
+
+            window.location.href = "./result.html";
+        });
+    </script>
+
+</body>
+</html>
+
+
+

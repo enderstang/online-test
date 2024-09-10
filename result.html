@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .result {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>你的测试成绩</h1>
+        <div class="result">
+            <p id="score"></p>
+            <p>满分为 3 分.</p>
+            <p id="timeSpent"></p>
+        </div>
+    </div>
+
+    <script>
+        const score = localStorage.getItem("testScore");
+        const timeSpent = localStorage.getItem("timeSpent");
+
+        document.getElementById("score").textContent = `你得了 ${score} 分!`;
+
+        const minutes = Math.floor(timeSpent / 60);
+        const seconds = timeSpent % 60;
+        document.getElementById("timeSpent").textContent = `你用了 ${minutes} 分 ${seconds} 秒 完成测试。`;
+
+        localStorage.removeItem("startTime");
+        localStorage.removeItem("timeSpent");
+    </script>
+
+</body>
+</html>
+
+
+
